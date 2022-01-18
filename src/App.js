@@ -5,15 +5,17 @@ class App extends Component {
   state = {
     contacts: [],
     name: '',
+    number: '',
   };
 
   nameImputId = shortid.generate();
-  // contactItemId = shortid.generate();
+  numberImputId = shortid.generate();
 
   hendleImputChange = event => {
-    const { name, value } = event.currentTarget;
+    const { name, number, value } = event.currentTarget;
 
     this.setState({ [name]: [value] });
+    this.setState({ [number]: [value] });
   };
 
   hendleSubmit = event => {
@@ -30,6 +32,7 @@ class App extends Component {
     const contact = {
       id: shortid.generate(),
       name: this.state.name,
+      number: this.state.number,
     };
 
     this.setState(prevState => ({
@@ -39,6 +42,7 @@ class App extends Component {
 
   reset = () => {
     this.setState({ name: '' });
+    this.setState({ number: '' });
   };
 
   render() {
@@ -59,6 +63,17 @@ class App extends Component {
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
+          <label htmlFor={this.numberImputId}>Number</label>
+          <input
+            type="tel"
+            name="number"
+            value={this.state.number}
+            onChange={this.hendleImputChange}
+            id={this.numberImputId}
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+          />
 
           <button type="submit">Add contact</button>
         </form>
@@ -67,7 +82,9 @@ class App extends Component {
           <ul>
             {contacts.map(contact => (
               <li key={contact.id}>
-                <p>{contact.name}</p>
+                <p>
+                  {contact.name}:&nbsp; {contact.number}
+                </p>
               </li>
             ))}
           </ul>
