@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ContactList = ({ contacts, visibledContacts }) => (
   <>
     {contacts && (
       <ul>
-        {visibledContacts.map(contact => (
-          <li key={contact.id}>
+        {visibledContacts.map(({ id, name, number }) => (
+          <li key={id}>
             <p>
-              {contact.name}:&nbsp; {contact.number}
+              {name}:&nbsp; {number}
             </p>
           </li>
         ))}
@@ -15,5 +16,16 @@ const ContactList = ({ contacts, visibledContacts }) => (
     )}
   </>
 );
+
+ContactList.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    }),
+  ),
+  visibledContacts: PropTypes.array.isRequired,
+};
 
 export default ContactList;

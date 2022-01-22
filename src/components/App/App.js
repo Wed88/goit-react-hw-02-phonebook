@@ -17,10 +17,16 @@ class App extends Component {
 
   filterImputId = shortid.generate();
 
-  formOnSubmitContact = contact => {
-    this.setState(prevState => ({
-      contacts: [contact, ...prevState.contacts],
-    }));
+  formOnSubmitContact = newContact => {
+    const compareContact = this.state.contacts.find(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase(),
+    );
+
+    compareContact
+      ? alert(`${newContact.name} is already in contacts`)
+      : this.setState(prevState => ({
+          contacts: [newContact, ...prevState.contacts],
+        }));
   };
 
   changeFilter = event => {
@@ -28,21 +34,20 @@ class App extends Component {
   };
 
   render() {
+    const { formOnSubmitContact, filterImputId, changeFilter } = this;
+    const { filter } = this.state;
     const contacts = this.state.contacts;
+    const normalizedFilter = this.state.filter.toLowerCase();
     const visibledContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(this.state.filter.toLowerCase()),
+      contact.name.toLowerCase().includes(normalizedFilter),
     );
 
     return (
       <div>
         <h1>Phonebook</h1>
-        <ContactForm onSubmitContact={this.formOnSubmitContact} />
+        <ContactForm onSubmitContact={formOnSubmitContact} />
         <h2>Contacts</h2>
-        <Filter
-          id={this.filterImputId}
-          value={this.state.filter}
-          changeFilter={this.changeFilter}
-        />
+        <Filter id={filterImputId} value={filter} changeFilter={changeFilter} />
         <ContactList contacts={contacts} visibledContacts={visibledContacts} />
       </div>
     );
