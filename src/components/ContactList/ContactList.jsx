@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ContactList = ({ contacts, visibledContacts }) => (
+const ContactList = ({ contacts, visibledContacts, onDeleteContact }) => (
   <>
     {contacts && (
       <ul>
@@ -10,6 +10,9 @@ const ContactList = ({ contacts, visibledContacts }) => (
             <p>
               {name}:&nbsp; {number}
             </p>
+            <button type="button" onClick={() => onDeleteContact(id)}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
@@ -26,6 +29,7 @@ ContactList.propTypes = {
     }),
   ),
   visibledContacts: PropTypes.array.isRequired,
+  onDeleteContact: PropTypes.func.isRequired,
 };
 
 export default ContactList;
