@@ -56,8 +56,7 @@ class App extends Component {
         <h2>Contacts</h2>
         <Filter id={filterImputId} value={filter} changeFilter={changeFilter} />
         <ContactList
-          contacts={contacts}
-          visibledContacts={visibledContacts}
+          contacts={visibledContacts}
           onDeleteContact={deleteContact}
         />
       </div>
